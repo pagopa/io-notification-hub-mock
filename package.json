@@ -1,9 +1,9 @@
 {
-  "name": "TODO",
+  "name": "io-notification-hub-mock",
   "version": "0.0.1",
-  "description": "TODO",
-  "repository": "https://github.com/teamdigitale/TODO",
-  "author": "https://teamdigitale.governo.it",
+  "description": "Mock server for Azure notification hub",
+  "repository": "https://github.com/pagopa/io-notification-hub-mock",
+  "author": "https://www.pagopa.gov.it",
   "license": "MIT",
   "scripts": {
     "prebuild": "rimraf dist",
