@@ -23,8 +23,6 @@ paths:
           required: true
           schema:
             $ref: "#/definitions/SendTemplateNotificationBody"
-      produces:
-        - application/json
       responses:
         200:
           description: Message successfully sent.
@@ -53,8 +51,6 @@ paths:
           required: true
           schema:
             $ref: "#/definitions/CreateOrOverwriteInstallationBody"
-      produces:
-        - application/json
       responses:
         200:
           description: Installation was queued successfully and will be processed in the background.
@@ -77,8 +73,6 @@ paths:
       description: |-
         The original method deletes an installation.
         See [REST API method references](https://docs.microsoft.com/en-us/rest/api/notificationhubs/delete-installation).
-      produces:
-        - application/json
       responses:
         204:
           description: The installation was deleted successfully or was not found
