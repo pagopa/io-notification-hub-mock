@@ -28,7 +28,7 @@ export default function newApp(emailService: EmailService): Express {
     "/:notificationHub/messages",
     bodyParser.json({ limit: "64Kb" }),
     (req, res) => {
-      const endpointInfo = "POST /:notificationHub/messages";
+      const endpointInfo = `${req.url} ${req.method}`;
       const requestInfo = getRequestInfo(req);
       return SendTemplateNotificationBody.decode(req.body)
         .mapLeft(errors =>
@@ -58,7 +58,7 @@ export default function newApp(emailService: EmailService): Express {
   );
 
   app.put("/:notificationHub/installations", (req, res) => {
-    const endpointInfo = "PUT /:notificationHub/installations";
+    const endpointInfo = `${req.url} ${req.method}`;
     const requestInfo = getRequestInfo(req);
     log.info(`[${endpointInfo}] Request info: %s`, requestInfo);
     res
@@ -71,9 +71,12 @@ export default function newApp(emailService: EmailService): Express {
       .end();
   });
 
-  app.delete("/:notificationHub/installations/:installationId", (_, res) =>
-    res.status(204).end()
-  );
+  app.delete("/:notificationHub/installations/:installationId", (req, res) => {
+    const endpointInfo = `${req.url} ${req.method}`;
+    const requestInfo = getRequestInfo(req);
+    log.info(`[${endpointInfo}] Request info: %s`, requestInfo);
+    res.status(204).end();
+  });
 
   return app;
 }

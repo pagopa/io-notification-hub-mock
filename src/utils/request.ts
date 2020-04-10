@@ -9,7 +9,6 @@ export function getRequestInfo(req: Request): string {
     {
       body: req.body,
       headers: req.headers,
-      params: req.params,
       query: req.query
     },
     null,
