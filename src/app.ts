@@ -108,6 +108,19 @@ function registerInstallationsRoutes(
           () =>
             db
               .get("installations")
+              .remove(
+                installation =>
+                  installation.installationId === requestBody.installationId
+              )
+              .write(),
+          toError
+        ).map(() => requestBody)
+      )
+      .chain(requestBody =>
+        tryCatch(
+          () =>
+            db
+              .get("installations")
               .push(requestBody)
               .write(),
           toError
