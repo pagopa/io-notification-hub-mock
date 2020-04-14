@@ -28,6 +28,7 @@ the app will load them on start.
 | Variable name                          | Description                                                                       | type    |
 | -------------------------------------- | --------------------------------------------------------------------------------- | ------- |
 | BACKEND_PORT                           | Port of Express server                                                            | number  |
+| DB_SOURCE                              | The path of the JSON file used to store the data                                  | number  |
 | EMAIL_PASSWORD                         | The password used to connect to the email server                                  | string  |
 | EMAIL_USER                             | The user to connect to the email server                                           | string  |
 | EMAIL_SMTP_HOST                        | The hostname or IP address of the SMTP server                                     | string  |

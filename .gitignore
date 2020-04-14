@@ -7,3 +7,4 @@ coverage
 /.idea/
 /src/generated/
 /.env
+/db-source.json

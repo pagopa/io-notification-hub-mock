@@ -1,3 +1,5 @@
+import { toError } from "fp-ts/lib/Either";
+import { tryCatch } from "fp-ts/lib/TaskEither";
 import * as fs from "fs";
 import newApp from "./app";
 import EmailService from "./services/emailService";
@@ -23,19 +25,27 @@ const emailService = new EmailService(
   }
 );
 
-emailService
-  .verifyTransport()
-  .then(() => {
-    const app = newApp(emailService);
-
-    return app.listen(app.get("port"), () => {
-      log.info(
-        `${packageJson.name} is running on http://localhost:${app.get("port")}`
-      );
-      log.info("  Press CTRL-C to stop\n");
-    });
-  })
-  .catch(error => {
-    log.error("Error on app init.", error);
+tryCatch(() => emailService.verifyTransport(), toError)
+  .mapLeft(error => {
+    log.error("Error on email service init. %s", error);
     process.exit(1);
-  });
+  })
+  .chain(() =>
+    newApp(emailService)
+      .map(app =>
+        app.listen(app.get("port"), () => {
+          log.info(
+            `${packageJson.name} is running on http://localhost:${app.get(
+              "port"
+            )}`
+          );
+          log.info("  Press CTRL-C to stop\n");
+        })
+      )
+      .mapLeft(error => {
+        log.error("Error on app init. %s", error);
+        process.exit(1);
+      })
+  )
+  // tslint:disable-next-line:no-floating-promises
+  .run();

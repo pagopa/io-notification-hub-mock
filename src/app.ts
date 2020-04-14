@@ -2,16 +2,27 @@ import * as bodyParser from "body-parser";
 import * as express from "express";
 import { Express } from "express";
 import { toError } from "fp-ts/lib/Either";
-import { tryCatch } from "fp-ts/lib/TaskEither";
+import { fromEither, TaskEither, tryCatch } from "fp-ts/lib/TaskEither";
 import { Errors } from "io-ts";
 import { errorsToReadableMessages } from "italia-ts-commons/lib/reporters";
+import * as low from "lowdb";
+import { LowdbAsync } from "lowdb";
+// tslint:disable-next-line:no-submodule-imports
+import * as FileAsync from "lowdb/adapters/FileAsync";
 import { CreateOrOverwriteInstallationBody } from "./generated/definitions/CreateOrOverwriteInstallationBody";
 import { SendTemplateNotificationBody } from "./generated/definitions/SendTemplateNotificationBody";
 import EmailService from "./services/emailService";
+import { getRequiredEnvVar } from "./utils/environment";
 import { log } from "./utils/logger";
 import { getRequestInfo } from "./utils/request";
 
-export default function newApp(emailService: EmailService): Express {
+interface IDbSchema {
+  installations: ReadonlyArray<CreateOrOverwriteInstallationBody>;
+}
+
+export default function newApp(
+  emailService: EmailService
+): TaskEither<Error, Express> {
   // Create Express server
   const app = express();
 
@@ -57,28 +68,16 @@ export default function newApp(emailService: EmailService): Express {
     }
   );
 
-  app.put("/:notificationHub/installations", (req, res) => {
-    const endpointInfo = `${req.url} ${req.method}`;
-    const requestInfo = getRequestInfo(req);
-    log.info(`[${endpointInfo}] Request info: %s`, requestInfo);
-    res
-      .status(
-        CreateOrOverwriteInstallationBody.decode(req.body).fold(
-          errors => getMalformedRequestStatusCode(endpointInfo, errors),
-          () => 200
-        )
+  return tryCatch(() => {
+    const adapter = new FileAsync<IDbSchema>(getRequiredEnvVar("DB_SOURCE"));
+    return low(adapter);
+  }, toError)
+    .chain(db =>
+      tryCatch(() => db.defaults({ installations: [] }).write(), toError).map(
+        () => db
       )
-      .end();
-  });
-
-  app.delete("/:notificationHub/installations/:installationId", (req, res) => {
-    const endpointInfo = `${req.url} ${req.method}`;
-    const requestInfo = getRequestInfo(req);
-    log.info(`[${endpointInfo}] Request info: %s`, requestInfo);
-    res.status(204).end();
-  });
-
-  return app;
+    )
+    .map(db => registerInstallationsRoutes(app, db));
 }
 
 function getMalformedRequestStatusCode(
@@ -90,4 +89,60 @@ function getMalformedRequestStatusCode(
     errorsToReadableMessages(errors).join(" / ")
   );
   return 400;
+}
+
+function registerInstallationsRoutes(
+  app: Express,
+  db: LowdbAsync<IDbSchema>
+): Express {
+  app.put("/:notificationHub/installations", (req, res) => {
+    const endpointInfo = `${req.url} ${req.method}`;
+    const requestInfo = getRequestInfo(req);
+    log.info(`[${endpointInfo}] Request info: %s`, requestInfo);
+    return fromEither(CreateOrOverwriteInstallationBody.decode(req.body))
+      .mapLeft<Error | void>(errors =>
+        res.status(getMalformedRequestStatusCode(endpointInfo, errors)).end()
+      )
+      .chain(requestBody =>
+        tryCatch(
+          () =>
+            db
+              .get("installations")
+              .push(requestBody)
+              .write(),
+          toError
+        )
+      )
+      .mapLeft(error => {
+        log.error("An error occurred on db write. %s", error);
+        return res.status(500).send();
+      })
+      .map(() => res.status(200).end())
+      .run();
+  });
+
+  app.delete("/:notificationHub/installations/:installationId", (req, res) => {
+    const endpointInfo = `${req.url} ${req.method}`;
+    const requestInfo = getRequestInfo(req);
+    log.info(`[${endpointInfo}] Request info: %s`, requestInfo);
+    return tryCatch(
+      () =>
+        db
+          .get("installations")
+          .remove(
+            installation =>
+              installation.installationId === req.params.installationId
+          )
+          .write(),
+      toError
+    )
+      .mapLeft(error => {
+        log.error("An error occurred on db write. %s", error);
+        return res.status(500).send();
+      })
+      .map(() => res.status(204).end())
+      .run();
+  });
+
+  return app;
 }
