@@ -15,7 +15,7 @@ paths:
     post:
       description: |-
         The original method sends a notification to a template registration on a notification hub.
-        See [REST API method references](https://docs.microsoft.com/en-us/rest/api/notificationhubs/delete-installation).
+        See [REST API method references](https://docs.microsoft.com/en-us/rest/api/notificationhubs/send-template-notification).
       parameters:
         - description: The request payload.
           in: body
