@@ -4,3 +4,7 @@ npm-debug.log
 yarn-error.log
 coverage
 .vscode
+/.idea/
+/src/generated/
+/.env
+/db-source.json

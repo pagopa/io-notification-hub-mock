@@ -1,0 +1,166 @@
+swagger: "2.0"
+info:
+  title: Azure NotificationHub specifications
+  description: |-
+    Specifications file for a mock server of Azure NotificationHub based on API version 2015-01.
+    See [Notification Hubs REST API method references](https://docs.microsoft.com/en-us/rest/api/notificationhubs/rest-api-methods)
+  version: 1.0.0
+schemes:
+  - https
+paths:
+  /{notificationHub}/messages:
+    parameters:
+      - $ref: "#/parameters/notificationHubParam"
+      - $ref: "#/parameters/api-version"
+    post:
+      description: |-
+        The original method sends a notification to a template registration on a notification hub.
+        See [REST API method references](https://docs.microsoft.com/en-us/rest/api/notificationhubs/send-template-notification).
+      parameters:
+        - description: The request payload.
+          in: body
+          name: body
+          required: true
+          schema:
+            $ref: "#/definitions/SendTemplateNotificationBody"
+      responses:
+        200:
+          description: Message successfully sent.
+        400:
+          description: Malformed request.
+        401:
+          description: Authorization failure.
+        403:
+          description: Quota exceeded or message too large; message was rejected.
+        404:
+          description: No message branch at the URI.
+        413:
+          description: Requested entity too large. The message size cannot be over 64 Kb.
+  /{notificationHub}/installations:
+    parameters:
+      - $ref: "#/parameters/notificationHubParam"
+      - $ref: "#/parameters/api-version"
+    put:
+      description: |-
+        The original method creates or overwrites an installation.
+        See [REST API method references](https://docs.microsoft.com/en-us/rest/api/notificationhubs/create-overwrite-installation).
+      parameters:
+        - description: The request payload
+          in: body
+          name: body
+          required: true
+          schema:
+            $ref: "#/definitions/CreateOrOverwriteInstallationBody"
+      responses:
+        200:
+          description: Installation was queued successfully and will be processed in the background.
+        400:
+          description: Malformed request.
+        401:
+          description: Authorization failure.
+        403:
+          description: Too many installations in this namespace - Installations not created.
+  /{notificationHub}/installations/{installationId}:
+    parameters:
+      - $ref: "#/parameters/notificationHubParam"
+      - description: The installation Id
+        in: path
+        name: installationId
+        required: true
+        type: string
+      - $ref: "#/parameters/api-version"
+    delete:
+      description: |-
+        The original method deletes an installation.
+        See [REST API method references](https://docs.microsoft.com/en-us/rest/api/notificationhubs/delete-installation).
+      responses:
+        204:
+          description: The installation was deleted successfully or was not found
+        400:
+          description: Malformed request
+        401:
+          description: Authorization failure
+        403:
+          description: Quota exceeded
+parameters:
+  notificationHubParam:
+    description: The Notification Hub name
+    in: path
+    name: notificationHub
+    required: true
+    type: string
+  api-version:
+    description: The API version used by the client
+    in: query
+    name: api-version
+    required: true
+    type: string
+definitions:
+  CreateOrOverwriteInstallationBody:
+    type: object
+    properties:
+      installationId:
+        type: string
+      lastActiveOn:
+        type: string
+      expirationTime:
+        type: string
+      lastUpdate:
+        type: string
+      platform:
+        type: string
+      pushChannel:
+        type: string
+      expiredPushChannel:
+        type: boolean
+      tags:
+        type: array
+        items:
+          type: string
+      templates:
+        type: object
+        additionalProperties:
+          $ref: '#/definitions/Template'
+      secondaryTiles:
+        type: object
+        additionalProperties:
+          $ref: '#/definitions/SecondaryTile'
+    required:
+      - installationId
+      - platform
+      - pushChannel
+  SecondaryTile:
+    type: object
+    properties:
+      pushChannel:
+        type: string
+      tags:
+        type: array
+        items:
+          type: string
+      templates:
+        type: object
+        additionalProperties:
+          $ref: '#/definitions/Template'
+    required:
+      - pushChannel
+  SendTemplateNotificationBody:
+    type: object
+    additionalProperties:
+      type: string
+  Template:
+    type: object
+    properties:
+      body:
+        type: string
+      headers:
+        type: object
+      expiry:
+        type: string
+      tags:
+        type: array
+        items:
+          type: string
+    required:
+      - body
+
