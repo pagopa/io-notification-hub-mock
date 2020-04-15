@@ -37,6 +37,8 @@ export default function newApp(
 
   app.post(
     "/:notificationHub/messages",
+    // Message size cannot be over 64Kb,
+    // see https://docs.microsoft.com/en-us/rest/api/notificationhubs/send-template-notification#response
     bodyParser.json({ limit: "64Kb" }),
     (req, res) => {
       const endpointInfo = `${req.url} ${req.method}`;
