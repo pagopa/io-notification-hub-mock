@@ -85,7 +85,7 @@ describe("app", () => {
     });
   });
 
-  describe.skip("DELETE installations endpoint", () => {
+  describe("DELETE installations endpoint", () => {
     const endpoint = "/notificationHub/installations";
 
     it("should return a 204 success response", () => {
