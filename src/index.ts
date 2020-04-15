@@ -39,7 +39,6 @@ tryCatch(() => emailService.verifyTransport(), toError)
               "port"
             )}`
           );
-          log.info("  Press CTRL-C to stop\n");
         })
       )
       .mapLeft(error => {
