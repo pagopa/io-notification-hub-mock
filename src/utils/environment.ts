@@ -3,6 +3,7 @@
 import * as dotenv from "dotenv";
 dotenv.config();
 
+import * as fs from "fs";
 import { log } from "./logger";
 
 /**
@@ -17,4 +18,17 @@ export function getRequiredEnvVar(varName: string): string | never {
     return process.exit(1);
   }
   return envVar;
+}
+
+/**
+ * Reads a file from the filesystem..
+ *
+ * @param path
+ * @param type
+ * @returns {string}
+ */
+export function readFile(path: string, type: string): string {
+  log.info("Reading %s file from %s", type, path);
+  // eslint-disable-next-line security/detect-non-literal-fs-filename
+  return fs.readFileSync(path, "utf-8");
 }
