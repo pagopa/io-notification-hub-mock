@@ -41,7 +41,7 @@ tryCatch(() => emailService.verifyTransport(), toError)
           process.env.HTTPS_CERT_PATH || "./certs/cert.pem",
           "HTTPS certificate"
         ) };
-        https.createServer(options, app).listen(443, () => {
+        https.createServer(options, app).listen(process.env.PORT || 3000, () => {
           log.info(
             `${packageJson.name} is running on http://localhost:${app.get(
               "port"
