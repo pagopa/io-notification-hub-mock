@@ -40,9 +40,11 @@ the app will load them on start.
 ## Postman Collection Tests
 
 A file name `test.postman_collection.json` contains a simple set of tests.
-For running this collection you can either open it into Postman or run it using [newman](https://support.postman.com/hc/en-us/articles/115003710329-What-is-Newman-)
+To run this collection you can either open it into Postman or run it using [newman](https://support.postman.com/hc/en-us/articles/115003710329-What-is-Newman-)
 
-For run it using newman, just call:
+**NOTE: It's necessary that the application has been started using `yarn start` to run the test.**
+
+To run it using newman, just call:
 
 ```
 newman run test.postman_collection.json --insecure
