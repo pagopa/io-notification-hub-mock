@@ -1,0 +1,834 @@
+{
+	"info": {
+		"_postman_id": "bdb89788-8702-4123-aa7a-912c2220d2cf",
+		"name": "Azure NotificationHub specifications",
+		"description": "Specifications file for a mock server of Azure NotificationHub based on API version 2015-01.\nSee [Notification Hubs REST API method references](https://docs.microsoft.com/en-us/rest/api/notificationhubs/rest-api-methods)",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "{notification Hub}",
+			"item": [
+				{
+					"name": "installations/{installation Id}",
+					"item": [
+						{
+							"name": "/:notificationHub/installations/:installationId",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Response is 200\", () => {",
+											"    pm.response.to.have.status(200);",
+											"})"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"installationId\": \"cff299cd50dff7cfa143a6a7fa4f89c4f4095dc4614b1d249b9bd9c7070a91dc\",\n    \"platform\": \"gmc\",\n    \"pushChannel\": \"epbR8dxGSuGteiWkka5tiS:APA91bHhXQfnOAHudsXmYG9xzqNon8BylHDEzwFAF7oradEof15sRp-U2A-nlAnEJaq_oi44TDV6tmCVzTYzYsNN3EIxREWEnFJtT4uI-AiGK0KPe8T1LKPhOBrhHwwr3SWl-RF3rPj\",\n    \"tags\": [\n        \"cff299cd50dff7cfa143a6a7fa4f89c4f4095dc4614b1d249b9bd9c7070a91dc\"\n    ],\n    \"templates\": {\n        \"template\": {\n            \"body\": \"ciao\"\n            }\n        },\n    \"secondaryTiles\": {}\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/:notificationHub/installations/{{installationId}}?api-version=1.0",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										":notificationHub",
+										"installations",
+										"{{installationId}}"
+									],
+									"query": [
+										{
+											"key": "api-version",
+											"value": "1.0",
+											"description": "(Required) The API version used by the client"
+										}
+									],
+									"variable": [
+										{
+											"key": "notificationHub",
+											"value": "notificationHub",
+											"description": "(Required) The Notification Hub name"
+										}
+									]
+								},
+								"description": "The original method creates or overwrites an installation.\nSee [REST API method references](https://docs.microsoft.com/en-us/rest/api/notificationhubs/create-overwrite-installation)."
+							},
+							"response": [
+								{
+									"name": "Authorization failure.",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"installationId\": \"et\",\n    \"platform\": \"esse ex adipisicing\",\n    \"pushChannel\": \"ipsum adipisicing\",\n    \"lastActiveOn\": \"velit sunt\",\n    \"expirationTime\": \"ut\",\n    \"lastUpdate\": \"laboris sunt\",\n    \"expiredPushChannel\": true,\n    \"tags\": [\n        \"nostrud\",\n        \"enim sunt Excepteur\"\n    ],\n    \"templates\": {},\n    \"secondaryTiles\": {}\n}"
+										},
+										"url": {
+											"raw": "{{baseUrl}}/:notificationHub/installations/:installationId?api-version=exercitation ut",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												":notificationHub",
+												"installations",
+												":installationId"
+											],
+											"query": [
+												{
+													"key": "api-version",
+													"value": "exercitation ut"
+												}
+											],
+											"variable": [
+												{
+													"key": "notificationHub"
+												},
+												{
+													"key": "installationId"
+												}
+											]
+										}
+									},
+									"status": "Unauthorized",
+									"code": 401,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "text/plain"
+										}
+									],
+									"cookie": [],
+									"body": ""
+								},
+								{
+									"name": "Installation was queued successfully and will be processed in the background.",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"installationId\": \"et\",\n    \"platform\": \"esse ex adipisicing\",\n    \"pushChannel\": \"ipsum adipisicing\",\n    \"lastActiveOn\": \"velit sunt\",\n    \"expirationTime\": \"ut\",\n    \"lastUpdate\": \"laboris sunt\",\n    \"expiredPushChannel\": true,\n    \"tags\": [\n        \"nostrud\",\n        \"enim sunt Excepteur\"\n    ],\n    \"templates\": {},\n    \"secondaryTiles\": {}\n}"
+										},
+										"url": {
+											"raw": "{{baseUrl}}/:notificationHub/installations/:installationId?api-version=exercitation ut",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												":notificationHub",
+												"installations",
+												":installationId"
+											],
+											"query": [
+												{
+													"key": "api-version",
+													"value": "exercitation ut"
+												}
+											],
+											"variable": [
+												{
+													"key": "notificationHub"
+												},
+												{
+													"key": "installationId"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "text/plain"
+										}
+									],
+									"cookie": [],
+									"body": ""
+								},
+								{
+									"name": "Malformed request.",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"installationId\": \"et\",\n    \"platform\": \"esse ex adipisicing\",\n    \"pushChannel\": \"ipsum adipisicing\",\n    \"lastActiveOn\": \"velit sunt\",\n    \"expirationTime\": \"ut\",\n    \"lastUpdate\": \"laboris sunt\",\n    \"expiredPushChannel\": true,\n    \"tags\": [\n        \"nostrud\",\n        \"enim sunt Excepteur\"\n    ],\n    \"templates\": {},\n    \"secondaryTiles\": {}\n}"
+										},
+										"url": {
+											"raw": "{{baseUrl}}/:notificationHub/installations/:installationId?api-version=exercitation ut",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												":notificationHub",
+												"installations",
+												":installationId"
+											],
+											"query": [
+												{
+													"key": "api-version",
+													"value": "exercitation ut"
+												}
+											],
+											"variable": [
+												{
+													"key": "notificationHub"
+												},
+												{
+													"key": "installationId"
+												}
+											]
+										}
+									},
+									"status": "Bad Request",
+									"code": 400,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "text/plain"
+										}
+									],
+									"cookie": [],
+									"body": ""
+								},
+								{
+									"name": "Too many installations in this namespace - Installations not created.",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"installationId\": \"et\",\n    \"platform\": \"esse ex adipisicing\",\n    \"pushChannel\": \"ipsum adipisicing\",\n    \"lastActiveOn\": \"velit sunt\",\n    \"expirationTime\": \"ut\",\n    \"lastUpdate\": \"laboris sunt\",\n    \"expiredPushChannel\": true,\n    \"tags\": [\n        \"nostrud\",\n        \"enim sunt Excepteur\"\n    ],\n    \"templates\": {},\n    \"secondaryTiles\": {}\n}"
+										},
+										"url": {
+											"raw": "{{baseUrl}}/:notificationHub/installations/:installationId?api-version=exercitation ut",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												":notificationHub",
+												"installations",
+												":installationId"
+											],
+											"query": [
+												{
+													"key": "api-version",
+													"value": "exercitation ut"
+												}
+											],
+											"variable": [
+												{
+													"key": "notificationHub"
+												},
+												{
+													"key": "installationId"
+												}
+											]
+										}
+									},
+									"status": "Forbidden",
+									"code": 403,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "text/plain"
+										}
+									],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						},
+						{
+							"name": "/:notificationHub/installations/:installationId",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Response is 204\", () => {",
+											"    pm.response.to.have.status(204);",
+											"})"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/:notificationHub/installations/{{installationId}}?api-version=1.0",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										":notificationHub",
+										"installations",
+										"{{installationId}}"
+									],
+									"query": [
+										{
+											"key": "api-version",
+											"value": "1.0",
+											"description": "(Required) The API version used by the client"
+										}
+									],
+									"variable": [
+										{
+											"key": "notificationHub",
+											"value": "notificationHub",
+											"description": "(Required) The Notification Hub name"
+										}
+									]
+								},
+								"description": "The original method deletes an installation.\nSee [REST API method references](https://docs.microsoft.com/en-us/rest/api/notificationhubs/delete-installation)."
+							},
+							"response": [
+								{
+									"name": "Authorization failure",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/:notificationHub/installations/:installationId?api-version=exercitation ut",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												":notificationHub",
+												"installations",
+												":installationId"
+											],
+											"query": [
+												{
+													"key": "api-version",
+													"value": "exercitation ut"
+												}
+											],
+											"variable": [
+												{
+													"key": "notificationHub"
+												},
+												{
+													"key": "installationId"
+												}
+											]
+										}
+									},
+									"status": "Unauthorized",
+									"code": 401,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "text/plain"
+										}
+									],
+									"cookie": [],
+									"body": ""
+								},
+								{
+									"name": "Malformed request",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/:notificationHub/installations/:installationId?api-version=exercitation ut",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												":notificationHub",
+												"installations",
+												":installationId"
+											],
+											"query": [
+												{
+													"key": "api-version",
+													"value": "exercitation ut"
+												}
+											],
+											"variable": [
+												{
+													"key": "notificationHub"
+												},
+												{
+													"key": "installationId"
+												}
+											]
+										}
+									},
+									"status": "Bad Request",
+									"code": 400,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "text/plain"
+										}
+									],
+									"cookie": [],
+									"body": ""
+								},
+								{
+									"name": "Quota exceeded",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/:notificationHub/installations/:installationId?api-version=exercitation ut",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												":notificationHub",
+												"installations",
+												":installationId"
+											],
+											"query": [
+												{
+													"key": "api-version",
+													"value": "exercitation ut"
+												}
+											],
+											"variable": [
+												{
+													"key": "notificationHub"
+												},
+												{
+													"key": "installationId"
+												}
+											]
+										}
+									},
+									"status": "Forbidden",
+									"code": 403,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "text/plain"
+										}
+									],
+									"cookie": [],
+									"body": ""
+								},
+								{
+									"name": "The installation was deleted successfully or was not found",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/:notificationHub/installations/:installationId?api-version=exercitation ut",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												":notificationHub",
+												"installations",
+												":installationId"
+											],
+											"query": [
+												{
+													"key": "api-version",
+													"value": "exercitation ut"
+												}
+											],
+											"variable": [
+												{
+													"key": "notificationHub"
+												},
+												{
+													"key": "installationId"
+												}
+											]
+										}
+									},
+									"status": "No Content",
+									"code": 204,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "text/plain"
+										}
+									],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "/:notificationHub/messages",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response is 200\", () => {",
+									"    pm.response.to.have.status(200);",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "ServiceBusNotification-Tags",
+								"value": "$InstallationId:{{installationId}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/:notificationHub/messages?api-version=1.0",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								":notificationHub",
+								"messages"
+							],
+							"query": [
+								{
+									"key": "api-version",
+									"value": "1.0",
+									"description": "(Required) The API version used by the client"
+								}
+							],
+							"variable": [
+								{
+									"key": "notificationHub",
+									"value": "notificationHub",
+									"description": "(Required) The Notification Hub name"
+								}
+							]
+						},
+						"description": "The original method sends a notification to a template registration on a notification hub.\nSee [REST API method references](https://docs.microsoft.com/en-us/rest/api/notificationhubs/send-template-notification)."
+					},
+					"response": [
+						{
+							"name": "No message branch at the URI.",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/:notificationHub/messages?api-version=exercitation ut",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										":notificationHub",
+										"messages"
+									],
+									"query": [
+										{
+											"key": "api-version",
+											"value": "exercitation ut"
+										}
+									],
+									"variable": [
+										{
+											"key": "notificationHub"
+										}
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "Malformed request.",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/:notificationHub/messages?api-version=exercitation ut",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										":notificationHub",
+										"messages"
+									],
+									"query": [
+										{
+											"key": "api-version",
+											"value": "exercitation ut"
+										}
+									],
+									"variable": [
+										{
+											"key": "notificationHub"
+										}
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "Quota exceeded or message too large; message was rejected.",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/:notificationHub/messages?api-version=exercitation ut",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										":notificationHub",
+										"messages"
+									],
+									"query": [
+										{
+											"key": "api-version",
+											"value": "exercitation ut"
+										}
+									],
+									"variable": [
+										{
+											"key": "notificationHub"
+										}
+									]
+								}
+							},
+							"status": "Forbidden",
+							"code": 403,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "Requested entity too large. The message size cannot be over 64 Kb.",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/:notificationHub/messages?api-version=exercitation ut",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										":notificationHub",
+										"messages"
+									],
+									"query": [
+										{
+											"key": "api-version",
+											"value": "exercitation ut"
+										}
+									],
+									"variable": [
+										{
+											"key": "notificationHub"
+										}
+									]
+								}
+							},
+							"status": "Request Entity Too Large",
+							"code": 413,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "Authorization failure.",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/:notificationHub/messages?api-version=exercitation ut",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										":notificationHub",
+										"messages"
+									],
+									"query": [
+										{
+											"key": "api-version",
+											"value": "exercitation ut"
+										}
+									],
+									"variable": [
+										{
+											"key": "notificationHub"
+										}
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "Message successfully sent.",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/:notificationHub/messages?api-version=exercitation ut",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										":notificationHub",
+										"messages"
+									],
+									"query": [
+										{
+											"key": "api-version",
+											"value": "exercitation ut"
+										}
+									],
+									"variable": [
+										{
+											"key": "notificationHub"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "https://localhost:3000"
+		},
+		{
+			"key": "installationId",
+			"value": "cff299cd50dff7cfa143a6a7fa4f89c4f4095dc4614b1d249b9bd9c7070a91dc"
+		}
+	]
+}
