@@ -8,3 +8,4 @@ coverage
 /src/generated/
 /.env
 /db-source.json
+/db.json

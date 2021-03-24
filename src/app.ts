@@ -97,7 +97,7 @@ function registerInstallationsRoutes(
   app: Express,
   db: LowdbAsync<IDbSchema>
 ): Express {
-  app.put("/:notificationHub/installations", (req, res) => {
+  app.put("/:notificationHub/installations/:installationId", (req, res) => {
     const endpointInfo = `${req.url} ${req.method}`;
     const requestInfo = getRequestInfo(req);
     log.info(`[${endpointInfo}] Request info: %s`, requestInfo);
