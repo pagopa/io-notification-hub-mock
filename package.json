@@ -43,7 +43,7 @@
     "fp-ts": "1.12.0",
     "io-ts": "1.8.5",
     "italia-ts-commons": "^6.3.0",
-    "logform": "^2.1.2",
+    "logform": "^2.2.0",
     "lowdb": "^1.0.0",
     "nodemailer": "^6.4.6",
     "winston": "^3.2.1"
