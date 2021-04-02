@@ -27,7 +27,7 @@ const emailService = new EmailService(
 );
 
 describe("app", () => {
-  // tslint:disable-next-line:no-let
+  // eslint-disable-next-line functional/no-let
   let app: Express;
   beforeAll(async () => {
     app = (await newApp(emailService).run()).mapLeft(fail).value;

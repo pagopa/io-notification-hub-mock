@@ -54,5 +54,5 @@ tryCatch(() => emailService.verifyTransport(), toError)
         process.exit(1);
       })
   )
-  // tslint:disable-next-line:no-floating-promises
+  // eslint-disable-next-line @typescript-eslint/no-floating-promises
   .run();

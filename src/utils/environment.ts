@@ -29,6 +29,6 @@ export function getRequiredEnvVar(varName: string): string | never {
  */
 export function readFile(path: string, type: string): string {
   log.info("Reading %s file from %s", type, path);
-  // eslint-disable-next-line security/detect-non-literal-fs-filename
+  // eslint-disable-next-line
   return fs.readFileSync(path, "utf-8");
 }

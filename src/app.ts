@@ -7,7 +7,7 @@ import { Errors } from "io-ts";
 import { errorsToReadableMessages } from "italia-ts-commons/lib/reporters";
 import * as low from "lowdb";
 import { LowdbAsync } from "lowdb";
-// tslint:disable-next-line:no-submodule-imports
+// eslint-disable-next-line import/no-internal-modules
 import * as FileAsync from "lowdb/adapters/FileAsync";
 import { CreateOrOverwriteInstallationBody } from "./generated/definitions/CreateOrOverwriteInstallationBody";
 import { SendTemplateNotificationBody } from "./generated/definitions/SendTemplateNotificationBody";
