@@ -4,8 +4,8 @@ import * as nodemailer from "nodemailer";
 import SMTPTransport = require("nodemailer/lib/smtp-transport");
 
 export default class EmailService {
-  private transporter: nodemailer.Transporter;
-  public constructor(
+  private readonly transporter: nodemailer.Transporter;
+  constructor(
     transporterConfig: SMTPTransport.Options,
     defaults: SMTPTransport.Options
   ) {

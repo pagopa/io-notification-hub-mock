@@ -62,7 +62,7 @@ describe("app", () => {
   });
 
   describe("PUT installations endpoint", () => {
-    const endpoint = "/notificationHub/installations";
+    const endpoint = "/notificationHub/installations/id";
     it("should return a 400 error response when the request body is malformed", () => {
       return request(app)
         .put(endpoint)

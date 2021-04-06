@@ -17,86 +17,24 @@ import { log } from "./utils/logger";
 import { getRequestInfo } from "./utils/request";
 
 interface IDbSchema {
-  installations: ReadonlyArray<CreateOrOverwriteInstallationBody>;
+  readonly installations: ReadonlyArray<CreateOrOverwriteInstallationBody>;
 }
 
-export default function newApp(
-  emailService: EmailService
-): TaskEither<Error, Express> {
-  // Create Express server
-  const app = express();
-
-  // Express configuration
-  app.set("port", process.env.PORT || 3000);
-  app.use(bodyParser.json());
-  app.use(bodyParser.urlencoded({ extended: true }));
-
-  app.get("/", (_, res) => {
-    res.json({ message: "The server is up and running" });
-  });
-
-  app.post(
-    "/:notificationHub/messages",
-    // Message size cannot be over 64Kb,
-    // see https://docs.microsoft.com/en-us/rest/api/notificationhubs/send-template-notification#response
-    bodyParser.json({ limit: "64Kb" }),
-    (req, res) => {
-      const endpointInfo = `${req.url} ${req.method}`;
-      const requestInfo = getRequestInfo(req);
-      return SendTemplateNotificationBody.decode(req.body)
-        .mapLeft(errors =>
-          res.status(getMalformedRequestStatusCode(endpointInfo, errors)).end()
-        )
-        .map(() => {
-          log.info(
-            "[POST /:notificationHub/messages] Request body: %s",
-            requestInfo
-          );
-          res.status(200).end();
-          return tryCatch(
-            () =>
-              emailService.send({
-                html: `<pre>${requestInfo}</pre>`,
-                subject: `[${endpointInfo}]`,
-                text: requestInfo
-              }),
-            toError
-          )
-            .mapLeft(error => {
-              log.error(`[${endpointInfo}] %s`, error);
-            })
-            .run();
-        });
-    }
-  );
-
-  return tryCatch(() => {
-    const adapter = new FileAsync<IDbSchema>(getRequiredEnvVar("DB_SOURCE"));
-    return low(adapter);
-  }, toError)
-    .chain(db =>
-      tryCatch(() => db.defaults({ installations: [] }).write(), toError).map(
-        () => db
-      )
-    )
-    .map(db => registerInstallationsRoutes(app, db));
-}
-
-function getMalformedRequestStatusCode(
+const getMalformedRequestStatusCode = (
   endpointInfo: string,
   errors: Errors
-): number {
+): number => {
   log.info(
     `${endpointInfo}Invalid payload. %s`,
     errorsToReadableMessages(errors).join(" / ")
   );
   return 400;
-}
+};
 
-function registerInstallationsRoutes(
+const registerInstallationsRoutes = (
   app: Express,
   db: LowdbAsync<IDbSchema>
-): Express {
+): Express => {
   app.put("/:notificationHub/installations/:installationId", (req, res) => {
     const endpointInfo = `${req.url} ${req.method}`;
     const requestInfo = getRequestInfo(req);
@@ -160,4 +98,66 @@ function registerInstallationsRoutes(
   });
 
   return app;
-}
+};
+
+const newApp = (emailService: EmailService): TaskEither<Error, Express> => {
+  // Create Express server
+  const app = express();
+
+  // Express configuration
+  app.set("port", process.env.PORT || 3000);
+  app.use(bodyParser.json());
+  app.use(bodyParser.urlencoded({ extended: true }));
+
+  app.get("/", (_, res) => {
+    res.json({ message: "The server is up and running" });
+  });
+
+  app.post(
+    "/:notificationHub/messages",
+    // Message size cannot be over 64Kb,
+    // see https://docs.microsoft.com/en-us/rest/api/notificationhubs/send-template-notification#response
+    bodyParser.json({ limit: "64Kb" }),
+    (req, res) => {
+      const endpointInfo = `${req.url} ${req.method}`;
+      const requestInfo = getRequestInfo(req);
+      return SendTemplateNotificationBody.decode(req.body)
+        .mapLeft(errors =>
+          res.status(getMalformedRequestStatusCode(endpointInfo, errors)).end()
+        )
+        .map(() => {
+          log.info(
+            "[POST /:notificationHub/messages] Request body: %s",
+            requestInfo
+          );
+          res.status(200).end();
+          return tryCatch(
+            () =>
+              emailService.send({
+                html: `<pre>${requestInfo}</pre>`,
+                subject: `[${endpointInfo}]`,
+                text: requestInfo
+              }),
+            toError
+          )
+            .mapLeft(error => {
+              log.error(`[${endpointInfo}] %s`, error);
+            })
+            .run();
+        });
+    }
+  );
+
+  return tryCatch(() => {
+    const adapter = new FileAsync<IDbSchema>(getRequiredEnvVar("DB_SOURCE"));
+    return low(adapter);
+  }, toError)
+    .chain(db =>
+      tryCatch(() => db.defaults({ installations: [] }).write(), toError).map(
+        () => db
+      )
+    )
+    .map(db => registerInstallationsRoutes(app, db));
+};
+
+export default newApp;

@@ -21,16 +21,6 @@ module.exports = {
         "@pagopa/eslint-config/strong",
     ],
     "rules": {
-        "functional/prefer-readonly-type": "off",
-        "prefer-arrow/prefer-arrow-functions": "off",
-        "@typescript-eslint/no-use-before-define": "off",
-        "import/order": "off",
-        "@typescript-eslint/no-floating-promises": "off",
-        "prettier/prettier": "off",
-        "sort-keys": "off",
-        "@typescript-eslint/semi": "off",
-        "@typescript-eslint/explicit-member-accessibility": "off",
-        "jsdoc/newline-after-description": "off",
-        "arrow-body-style": "off"
+        
     }
 }
