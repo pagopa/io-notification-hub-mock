@@ -30,6 +30,5 @@ export const getRequiredEnvVar = (varName: string): string | never => {
  */
 export const readFile = (path: string, type: string): string => {
   log.info("Reading %s file from %s", type, path);
-  // eslint-disable-next-line
   return fs.readFileSync(path, "utf-8");
 };
