@@ -1,18 +1,18 @@
 import * as nodemailer from "nodemailer";
 
-// tslint:disable-next-line:no-submodule-imports
+// eslint-disable-next-line import/no-internal-modules
 import SMTPTransport = require("nodemailer/lib/smtp-transport");
 
 export default class EmailService {
-  private transporter: nodemailer.Transporter;
-  public constructor(
+  private readonly transporter: nodemailer.Transporter;
+  constructor(
     transporterConfig: SMTPTransport.Options,
     defaults: SMTPTransport.Options
   ) {
     this.transporter = nodemailer.createTransport(transporterConfig, defaults);
   }
 
-  // tslint:disable-next-line:no-any
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public send(mailOptions: nodemailer.SendMailOptions): Promise<any> {
     return this.transporter.sendMail(mailOptions);
   }

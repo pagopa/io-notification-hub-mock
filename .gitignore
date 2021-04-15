@@ -9,3 +9,7 @@ coverage
 /.env
 /db-source.json
 /db.json
+
+# eslint section
+!.eslintrc.js
+.eslintcache

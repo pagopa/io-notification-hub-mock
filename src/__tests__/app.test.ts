@@ -27,7 +27,7 @@ const emailService = new EmailService(
 );
 
 describe("app", () => {
-  // tslint:disable-next-line:no-let
+  // eslint-disable-next-line functional/no-let
   let app: Express;
   beforeAll(async () => {
     app = (await newApp(emailService).run()).mapLeft(fail).value;
@@ -62,7 +62,7 @@ describe("app", () => {
   });
 
   describe("PUT installations endpoint", () => {
-    const endpoint = "/notificationHub/installations";
+    const endpoint = "/notificationHub/installations/id";
     it("should return a 400 error response when the request body is malformed", () => {
       return request(app)
         .put(endpoint)
