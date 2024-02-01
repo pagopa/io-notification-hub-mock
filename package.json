@@ -45,7 +45,7 @@
     "italia-ts-commons": "^6.3.0",
     "logform": "^2.1.2",
     "lowdb": "^1.0.0",
-    "nodemailer": "^6.4.6",
+    "nodemailer": "^6.9.9",
     "winston": "^3.2.1"
   },
   "jest": {
